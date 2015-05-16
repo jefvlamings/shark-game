@@ -66,18 +66,45 @@
 	  value: true
 	});
 
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 	var Scene = __webpack_require__(3);
+	var Shark = __webpack_require__(4);
 
-	// Game
+	var Game = (function () {
 
-	var Game = function Game($canvas) {
-	  _classCallCheck(this, Game);
+	  // Constructor
 
-	  console.log('Game loaded');
-	  var scene = new Scene($canvas);
-	};
+	  function Game($canvas) {
+	    _classCallCheck(this, Game);
+
+	    this.scene = new Scene($canvas);
+	    this.prepare();
+	    console.log('Game loaded');
+	  }
+
+	  _createClass(Game, [{
+	    key: 'prepare',
+
+	    // Prepare
+	    value: function prepare() {
+
+	      // Start position
+	      var position = {
+	        x: 125,
+	        y: 25
+	      };
+
+	      // Add shark
+	      var shark = new Shark('Barry', position);
+	      this.scene.addItem(shark);
+	    }
+	  }]);
+
+	  return Game;
+	})();
 
 	exports['default'] = Game;
 	module.exports = exports['default'];
@@ -9302,26 +9329,153 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// Game
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var Scene = function Scene($canvas) {
-	  _classCallCheck(this, Scene);
+	var Scene = (function () {
 
-	  console.log('Scene loaded');
-	  $canvas.css({
-	    border: '2px solid red'
-	  });
-	};
+	  // Constructor
+
+	  function Scene($canvas) {
+	    _classCallCheck(this, Scene);
+
+	    this.$canvas = $canvas;
+	    this.gridSize = 10;
+	    this.frameRate = 100; // ms
+	    this.canvas = this.$canvas[0];
+	    this.ctx = this.canvas.getContext('2d');
+	    this.items = [];
+	    this.play();
+	    console.log('Scene loaded');
+	  }
+
+	  _createClass(Scene, [{
+	    key: 'play',
+
+	    // Play
+	    value: function play() {
+	      var _this = this;
+
+	      setInterval(function (v) {
+	        _this.prepare();
+	        //item.draw(this.ctx);
+	      }, this.frameRate);
+	    }
+	  }, {
+	    key: 'addItem',
+
+	    // Add item
+	    value: function addItem(item) {
+	      this.items.push(item);
+	      console.log(item.type + ' ' + item.name + ' added to the pool.');
+	    }
+	  }, {
+	    key: 'prepare',
+
+	    // Prepare
+	    value: function prepare() {
+
+	      // Clear the canvas
+	      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+	      // Add a grid
+	      this.addGrid();
+	    }
+	  }, {
+	    key: 'addGrid',
+
+	    // Add Grid
+	    value: function addGrid() {
+
+	      this.ctx.strokeStyle = '#eee';
+	      this.ctx.lineWidth = 1;
+
+	      // Vertical lines along the x-axis
+	      for (var x = this.gridSize; x <= this.canvas.width; x = x + this.gridSize) {
+	        this.ctx.beginPath();
+	        this.ctx.moveTo(x, 0);
+	        this.ctx.lineTo(x, this.canvas.height);
+	        this.ctx.stroke();
+	      }
+
+	      // Horizontal lines along the y-axis
+	      for (var y = this.gridSize; y <= this.canvas.height; y = y + this.gridSize) {
+	        this.ctx.beginPath();
+	        this.ctx.moveTo(0, y);
+	        this.ctx.lineTo(this.canvas.width, y);
+	        this.ctx.stroke();
+	      }
+	    }
+	  }]);
+
+	  return Scene;
+	})();
 
 	exports['default'] = Scene;
 	module.exports = exports['default'];
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Shark = (function () {
+
+	  // Constructor
+
+	  function Shark(name, position) {
+	    _classCallCheck(this, Shark);
+
+	    this.type = "Shark";
+	    this.name = name;
+	    this.x = position.x;
+	    this.y = position.y;
+	    this.width = 10;
+	    this.height = 10;
+	    this.color = "red";
+	  }
+
+	  _createClass(Shark, [{
+	    key: "draw",
+
+	    // Draw
+	    value: function draw(ctx) {
+
+	      this.ctx = ctx;
+
+	      // Draw circle
+	      this.ctx.beginPath();
+	      this.ctx.arc(this.x, this.y, this.width / 2, 0, 2 * Math.PI, true);
+	      this.ctx.fillStyle = this.color;
+	      this.ctx.fill();
+
+	      // Draw coordinates
+	      this.ctx.font = "10px Arial";
+	      this.ctx.fillText(this.name, this.x + 10, this.y + 3);
+	    }
+	  }]);
+
+	  return Shark;
+	})();
+
+	exports["default"] = Shark;
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
