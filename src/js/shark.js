@@ -14,7 +14,10 @@ class Shark {
   // Draw
   draw(ctx) {
 
-    this.ctx = ctx
+    this.ctx = ctx;
+
+    this.x = this.x+0.5;
+    this.y = this.y+0.5;
 
     // Draw circle
     this.ctx.beginPath();

@@ -1,5 +1,5 @@
 {
-  "name": "Shark Game",
+  "name": "shark-game",
   "version": "0.0.1",
   "description": "Separate the sharks!",
   "main": "gulpfile.js",
@@ -22,6 +22,7 @@
     "babel-core": "^5.4.3",
     "babel-loader": "^5.1.0",
     "gulp-webpack": "^1.4.0",
+    "lodash": "^3.8.0",
     "node-libs-browser": "^0.5.0",
     "webpack": "^1.9.6"
   }

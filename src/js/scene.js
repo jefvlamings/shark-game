@@ -4,7 +4,7 @@ class Scene {
   constructor($canvas) {
     this.$canvas = $canvas;
     this.gridSize = 10;
-    this.frameRate = 100; // ms
+    this.frameRate = 5; // ms
     this.canvas = this.$canvas[0];
     this.ctx = this.canvas.getContext("2d");
     this.items = []
@@ -14,12 +14,17 @@ class Scene {
 
   // Play
   play() {
-
     setInterval(v => {
       this.prepare();
-      //item.draw(this.ctx);
+      this.drawItems();
     }, this.frameRate);
+  }
 
+  // Draw items
+  drawItems() {
+    _.forEach(this.items, (item) =>{
+      item.draw(this.ctx);
+    });
   }
 
   // Add item

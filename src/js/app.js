@@ -1,4 +1,5 @@
 // Dependencies
+var _ = require('lodash');
 var Game = require('./game');
 
 // Load game

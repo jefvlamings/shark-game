@@ -1,4 +1,3 @@
-// Dependencies
 var Scene = require('./scene');
 var Shark = require('./shark');
 
